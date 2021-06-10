@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/welcome/title_and_message.dart';
 
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    final double deviceHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
     void goToHomeScreen() => Navigator.pushReplacementNamed(context, "/home");
 
@@ -33,7 +31,7 @@ class Welcome extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.only(left: 35.0, right: 35.0),
                   child: PlatformFlatButton(
-                    handler: goToHomeScreen,
+                    handler: goToHomeScreen ,
                     color: Theme.of(context).primaryColor,
                     buttonChild: FittedBox(
                       child: Text(

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class PlatformSlider extends StatelessWidget {
   final int min, max, divisions, value;

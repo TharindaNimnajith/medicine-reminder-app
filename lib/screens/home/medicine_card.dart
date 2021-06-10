@@ -6,12 +6,11 @@ import 'package:medicine/models/pill.dart';
 import 'package:medicine/notifications/notifications.dart';
 
 class MedicineCard extends StatelessWidget {
+
   final Pill medicine;
   final Function setData;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-  MedicineCard(
-      this.medicine, this.setData, this.flutterLocalNotificationsPlugin);
+  MedicineCard(this.medicine,this.setData,this.flutterLocalNotificationsPlugin);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,8 @@ class MedicineCard extends StatelessWidget {
         child: ListTile(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onLongPress: () => _showDeleteDialog(
-                context, medicine.name, medicine.id, medicine.notifyId),
+            onLongPress: () =>
+                _showDeleteDialog(context, medicine.name, medicine.id, medicine.notifyId),
             contentPadding:
                 EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
             title: Text(
@@ -70,15 +69,17 @@ class MedicineCard extends StatelessWidget {
                     colorFilter: ColorFilter.mode(
                         isEnd ? Colors.white : Colors.transparent,
                         BlendMode.saturation),
-                    child: Image.asset(medicine.image)),
+                    child: Image.asset(
+                      medicine.image
+                    )),
               ),
             )));
   }
 
+
   //--------------------------| SHOW THE DELETE DIALOG ON THE SCREEN |-----------------------
 
-  void _showDeleteDialog(
-      BuildContext context, String medicineName, int medicineId, int notifyId) {
+  void _showDeleteDialog(BuildContext context, String medicineName, int medicineId, int notifyId) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -103,8 +104,7 @@ class MedicineCard extends StatelessWidget {
                       style: TextStyle(color: Theme.of(context).primaryColor)),
                   onPressed: () async {
                     await Repository().deleteData('Pills', medicineId);
-                    await Notifications().removeNotify(
-                        notifyId, flutterLocalNotificationsPlugin);
+                    await Notifications().removeNotify(notifyId, flutterLocalNotificationsPlugin);
                     setData();
                     Navigator.pop(context);
                   },
@@ -112,6 +112,7 @@ class MedicineCard extends StatelessWidget {
               ],
             ));
   }
-//============================================================================================
+  //============================================================================================
+
 
 }

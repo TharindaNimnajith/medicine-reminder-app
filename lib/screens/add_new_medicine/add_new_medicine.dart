@@ -9,12 +9,11 @@ import 'package:medicine/helpers/snack_bar.dart';
 import 'package:medicine/models/medicine_type.dart';
 import 'package:medicine/models/pill.dart';
 import 'package:medicine/notifications/notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
-
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/add_new_medicine/form_fields.dart';
 import '../../screens/add_new_medicine/medicine_type_card.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class AddNewMedicine extends StatefulWidget {
   @override
@@ -33,11 +32,16 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //list of medicines forms objects
   final List<MedicineType> medicineTypes = [
     MedicineType("Syrup", Image.asset("assets/images/syrup.png"), true),
-    MedicineType("Pill", Image.asset("assets/images/pills.png"), false),
-    MedicineType("Capsule", Image.asset("assets/images/capsule.png"), false),
-    MedicineType("Cream", Image.asset("assets/images/cream.png"), false),
-    MedicineType("Drops", Image.asset("assets/images/drops.png"), false),
-    MedicineType("Syringe", Image.asset("assets/images/syringe.png"), false),
+    MedicineType(
+        "Pill", Image.asset("assets/images/pills.png"), false),
+    MedicineType(
+        "Capsule", Image.asset("assets/images/capsule.png"), false),
+    MedicineType(
+        "Cream", Image.asset("assets/images/cream.png"), false),
+    MedicineType(
+        "Drops", Image.asset("assets/images/drops.png"), false),
+    MedicineType(
+        "Syringe", Image.asset("assets/images/syringe.png"), false),
   ];
 
   //-------------Pill object------------------
@@ -311,9 +315,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       Pill pill = Pill(
           amount: amountController.text,
           howManyWeeks: howManyWeeks,
-          medicineForm: medicineTypes[medicineTypes
-                  .indexWhere((element) => element.isChoose == true)]
-              .name,
+          medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose == true)].name,
           name: nameController.text,
           time: setDate.millisecondsSinceEpoch,
           type: selectWeight,
@@ -330,10 +332,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           //set the notification schneudele
           tz.initializeTimeZones();
           tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-          await _notifications.showNotification(
-              pill.name,
-              pill.amount + " " + pill.medicineForm + " " + pill.type,
-              time,
+          await _notifications.showNotification(pill.name, pill.amount + " " + pill.medicineForm + " " + pill.type, time,
               pill.notifyId,
               flutterLocalNotificationsPlugin);
           setDate = setDate.add(Duration(milliseconds: 604800000));

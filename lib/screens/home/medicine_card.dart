@@ -44,9 +44,10 @@ class MedicineCard extends StatelessWidget {
         title: Text(
           reminder.name,
           style: Theme.of(context).textTheme.headline1.copyWith(
-              color: Colors.black,
-              fontSize: 20.0,
-              decoration: isEnd ? TextDecoration.lineThrough : null),
+                color: Colors.black,
+                fontSize: 20.0,
+                decoration: isEnd ? TextDecoration.lineThrough : null,
+              ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -65,7 +66,9 @@ class MedicineCard extends StatelessWidget {
           children: [
             Text(
               DateFormat('HH:mm').format(
-                DateTime.fromMillisecondsSinceEpoch(reminder.time),
+                DateTime.fromMillisecondsSinceEpoch(
+                  reminder.time,
+                ),
               ),
               style: TextStyle(
                 color: Colors.grey[500],
@@ -83,9 +86,12 @@ class MedicineCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(50.0),
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                  isEnd ? Colors.white : Colors.transparent,
-                  BlendMode.saturation),
-              child: Image.asset(reminder.image),
+                isEnd ? Colors.white : Colors.transparent,
+                BlendMode.saturation,
+              ),
+              child: Image.asset(
+                reminder.image,
+              ),
             ),
           ),
         ),
@@ -94,12 +100,16 @@ class MedicineCard extends StatelessWidget {
   }
 
   void _showDeleteDialog(
-      BuildContext context, String medicineName, int medicineId, int notifyId) {
+    BuildContext context,
+    String medicineName,
+    int medicineId,
+    int notifyId,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Delete ?',
+          'Delete?',
         ),
         content: Text(
           'Are you sure to delete $medicineName medicine?',
@@ -128,7 +138,10 @@ class MedicineCard extends StatelessWidget {
               ),
             ),
             onPressed: () async {
-              await Repository().deleteData('Pills', medicineId);
+              await Repository().deleteData(
+                'Pills',
+                medicineId,
+              );
               await Notifications().removeNotify(
                 notifyId,
                 flutterLocalNotificationsPlugin,

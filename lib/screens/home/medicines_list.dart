@@ -10,10 +10,10 @@ class MedicinesList extends StatelessWidget {
   final Function setData;
 
   MedicinesList(
-    this.reminders,
-    this.setData,
-    this.flutterLocalNotificationsPlugin,
-  );
+      this.reminders,
+      this.setData,
+      this.flutterLocalNotificationsPlugin,
+      );
 
   @override
   Widget build(BuildContext context) {

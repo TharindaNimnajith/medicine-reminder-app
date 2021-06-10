@@ -1,11 +1,14 @@
-import 'package:empty_widget/empty_widget.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../database/repository.dart';
+import '../../models/calendar_day_model.dart';
 import '../../models/pill.dart';
 import '../../notifications/notifications.dart';
+import '../../screens/home/calendar.dart';
 import '../../screens/home/medicines_list.dart';
 
 class Home extends StatefulWidget {
@@ -14,28 +17,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final Repository _repository = Repository();
-
   final Notifications _notifications = Notifications();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  List<Pill> pills = <Pill>[];
+  final Repository _repository = Repository();
+
+  List<Pill> allReminders = <Pill>[];
+  List<Pill> dailyReminders = <Pill>[];
+
+  final CalendarDayModel _days = CalendarDayModel();
+  List<CalendarDayModel> _daysList;
+
+  int _lastChooseDay = 0;
 
   @override
   void initState() {
     super.initState();
     initNotifies();
     setData();
+    _daysList = _days.getCurrentDays();
   }
 
   Future initNotifies() async => flutterLocalNotificationsPlugin =
       await _notifications.initNotifies(context);
 
   Future setData() async {
-    pills.clear();
+    allReminders.clear();
     (await _repository.getAllData('Pills')).forEach((pillMap) {
-      pills.add(Pill().pillMapToObject(pillMap));
+      allReminders.add(Pill().pillMapToObject(pillMap));
     });
+    chooseDay(_daysList[_lastChooseDay]);
   }
 
   @override
@@ -79,45 +90,96 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(
                     horizontal: 5.0,
                   ),
-                  child: Text(
-                    'Medicine Reminder',
-                    style: TextStyle(
-                      fontSize: 30.0,
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    height: deviceHeight * 0.1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Journal',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              .copyWith(color: Colors.black),
+                        ),
+                        ShakeAnimatedWidget(
+                          enabled: true,
+                          duration: Duration(
+                            milliseconds: 2000,
+                          ),
+                          curve: Curves.linear,
+                          shakeAngle: Rotation.deg(
+                            z: 30,
+                          ),
+                          child: Icon(
+                            Icons.notifications_none,
+                            size: 42.0,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-                pills.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 20.0,
-                          horizontal: 10.0,
-                        ),
-                        child: EmptyWidget(
-                          image: null,
-                          packageImage: PackageImage.Image_1,
-                          title: 'No Reminders',
-                          subTitle: 'No reminders available yet',
-                          titleTextStyle: TextStyle(
-                            fontSize: 22,
-                            color: Color(0xff9da9c7),
-                            fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: deviceHeight * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 5.0,
+                  ),
+                  child: Calendar(chooseDay, _daysList),
+                ),
+                SizedBox(
+                  height: deviceHeight * 0.03,
+                ),
+                dailyReminders.isEmpty
+                    ? SizedBox(
+                        width: double.infinity,
+                        height: 100,
+                        child: WavyAnimatedTextKit(
+                          textStyle: TextStyle(
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                          subtitleTextStyle: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xffabb8d6),
+                          text: ['Loading...'],
+                          isRepeatingAnimation: true,
+                          speed: Duration(
+                            milliseconds: 150,
                           ),
                         ),
                       )
                     : MedicinesList(
-                        pills,
+                        dailyReminders,
                         setData,
                         flutterLocalNotificationsPlugin,
-                      ),
+                      )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void chooseDay(CalendarDayModel clickedDay) {
+    setState(() {
+      _lastChooseDay = _daysList.indexOf(clickedDay);
+      _daysList.forEach((day) => day.isChecked = false);
+      CalendarDayModel chooseDay = _daysList[_daysList.indexOf(clickedDay)];
+      chooseDay.isChecked = true;
+      dailyReminders.clear();
+      allReminders.forEach((pill) {
+        DateTime pillDate =
+            DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
+        if (chooseDay.dayNumber == pillDate.day &&
+            chooseDay.month == pillDate.month &&
+            chooseDay.year == pillDate.year) {
+          dailyReminders.add(pill);
+        }
+      });
+      dailyReminders.sort((pill1, pill2) => pill1.time.compareTo(pill2.time));
+    });
   }
 }

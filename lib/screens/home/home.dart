@@ -84,14 +84,12 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                Container(
-                  child: Text(
-                    'Medicine Reminders'.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      color: Colors.blueAccent,
-                      letterSpacing: 2.0,
-                    ),
+                Text(
+                  'Medicine Reminders'.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.blueAccent,
+                    letterSpacing: 2.0,
                   ),
                 ),
                 Container(
@@ -128,12 +126,10 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       )
-                    : Container(
-                        child: MedicinesList(
-                          dailyReminders,
-                          setData,
-                          flutterLocalNotificationsPlugin,
-                        ),
+                    : MedicinesList(
+                        dailyReminders,
+                        setData,
+                        flutterLocalNotificationsPlugin,
                       ),
               ],
             ),

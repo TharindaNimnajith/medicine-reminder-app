@@ -1,5 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:animated_widgets/animated_widgets.dart';
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -57,8 +56,10 @@ class _HomeState extends State<Home> {
     final Widget addButton = FloatingActionButton(
       elevation: 2.0,
       onPressed: () async {
-        await Navigator.pushNamed(context, '/add_new_medicine')
-            .then((_) => setData());
+        await Navigator.pushNamed(
+          context,
+          '/add_new_medicine',
+        ).then((_) => setData());
       },
       child: Icon(
         Icons.add,
@@ -74,87 +75,54 @@ class _HomeState extends State<Home> {
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 0.0,
-              left: 25.0,
-              right: 25.0,
-              bottom: 20.0,
-            ),
+          child: Container(
             child: Column(
               children: [
-                SizedBox(
-                  height: deviceHeight * 0.04,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5.0,
-                  ),
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    height: deviceHeight * 0.1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Journal',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              .copyWith(color: Colors.black),
-                        ),
-                        ShakeAnimatedWidget(
-                          enabled: true,
-                          duration: Duration(
-                            milliseconds: 2000,
-                          ),
-                          curve: Curves.linear,
-                          shakeAngle: Rotation.deg(
-                            z: 30,
-                          ),
-                          child: Icon(
-                            Icons.notifications_none,
-                            size: 42.0,
-                          ),
-                        )
-                      ],
+                Container(
+                  child: Text(
+                    'Medicine Reminders',
+                    style: TextStyle(
+                      fontSize: 30.0,
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: deviceHeight * 0.01,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5.0,
+                Container(
+                  child: Calendar(
+                    chooseDay,
+                    _daysList,
                   ),
-                  child: Calendar(chooseDay, _daysList),
-                ),
-                SizedBox(
-                  height: deviceHeight * 0.03,
                 ),
                 dailyReminders.isEmpty
-                    ? SizedBox(
-                        width: double.infinity,
-                        height: 100,
-                        child: WavyAnimatedTextKit(
-                          textStyle: TextStyle(
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                          text: ['Loading...'],
-                          isRepeatingAnimation: true,
-                          speed: Duration(
-                            milliseconds: 150,
+                    ? Container(
+                        height: deviceHeight * 0.85,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
+                        child: Center(
+                          child: EmptyWidget(
+                            image: null,
+                            packageImage: PackageImage.Image_1,
+                            title: 'No Reminders',
+                            subTitle: 'No reminders available yet',
+                            titleTextStyle: TextStyle(
+                              fontSize: 22,
+                              color: Color(0xff9da9c7),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            subtitleTextStyle: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xffabb8d6),
+                            ),
                           ),
                         ),
                       )
-                    : MedicinesList(
-                        dailyReminders,
-                        setData,
-                        flutterLocalNotificationsPlugin,
-                      )
+                    : Container(
+                        child: MedicinesList(
+                          dailyReminders,
+                          setData,
+                          flutterLocalNotificationsPlugin,
+                        ),
+                      ),
               ],
             ),
           ),

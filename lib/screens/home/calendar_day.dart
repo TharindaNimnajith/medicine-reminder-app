@@ -1,4 +1,5 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+
 import '../../models/calendar_day_model.dart';
 
 class CalendarDay extends StatefulWidget {
@@ -15,15 +16,16 @@ class _CalendarDayState extends State<CalendarDay> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context,constrains) => Column(
+      builder: (context, constrains) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             widget.day.dayLetter,
             style: TextStyle(
-                color: Colors.grey[500],
-                fontSize: 17.0,
-                fontWeight: FontWeight.w400),
+              color: Colors.grey[500],
+              fontSize: 17.0,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           SizedBox(
             height: constrains.maxHeight * 0.1,

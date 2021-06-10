@@ -76,17 +76,29 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
+            padding: const EdgeInsets.only(
+              top: 40.0,
+              bottom: 20.0,
+              left: 20.0,
+              right: 20.0,
+            ),
             child: Column(
               children: [
                 Container(
                   child: Text(
-                    'Medicine Reminders',
+                    'Medicine Reminders'.toUpperCase(),
                     style: TextStyle(
                       fontSize: 30.0,
+                      color: Colors.blueAccent,
+                      letterSpacing: 2.0,
                     ),
                   ),
                 ),
                 Container(
+                  padding: const EdgeInsets.only(
+                    top: 35.0,
+                    bottom: 25.0,
+                  ),
                   child: Calendar(
                     chooseDay,
                     _daysList,
@@ -94,7 +106,7 @@ class _HomeState extends State<Home> {
                 ),
                 dailyReminders.isEmpty
                     ? Container(
-                        height: deviceHeight * 0.85,
+                        height: deviceHeight * 0.6,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10.0,
                         ),
@@ -105,12 +117,12 @@ class _HomeState extends State<Home> {
                             title: 'No Reminders',
                             subTitle: 'No reminders available yet',
                             titleTextStyle: TextStyle(
-                              fontSize: 22,
+                              fontSize: 22.0,
                               color: Color(0xff9da9c7),
                               fontWeight: FontWeight.w500,
                             ),
                             subtitleTextStyle: TextStyle(
-                              fontSize: 14,
+                              fontSize: 14.0,
                               color: Color(0xffabb8d6),
                             ),
                           ),

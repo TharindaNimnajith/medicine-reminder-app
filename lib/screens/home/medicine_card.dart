@@ -7,16 +7,19 @@ import '../../models/pill.dart';
 import '../../notifications/notifications.dart';
 
 class MedicineCard extends StatelessWidget {
-  final Pill medicine;
-  final Function setData;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final Pill reminder;
+  final Function setData;
 
   MedicineCard(
-      this.medicine, this.setData, this.flutterLocalNotificationsPlugin);
+    this.reminder,
+    this.setData,
+    this.flutterLocalNotificationsPlugin,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final bool isEnd = DateTime.now().millisecondsSinceEpoch > medicine.time;
+    final bool isEnd = DateTime.now().millisecondsSinceEpoch > reminder.time;
 
     return Card(
       elevation: 0.0,
@@ -29,13 +32,17 @@ class MedicineCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         onLongPress: () => _showDeleteDialog(
-            context, medicine.name, medicine.id, medicine.notifyId),
+          context,
+          reminder.name,
+          reminder.id,
+          reminder.notifyId,
+        ),
         contentPadding: EdgeInsets.symmetric(
           vertical: 15.0,
           horizontal: 15.0,
         ),
         title: Text(
-          medicine.name,
+          reminder.name,
           style: Theme.of(context).textTheme.headline1.copyWith(
               color: Colors.black,
               fontSize: 20.0,
@@ -44,7 +51,7 @@ class MedicineCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
-          '${medicine.amount} ${medicine.medicineForm}',
+          '${reminder.amount} ${reminder.medicineForm}',
           style: Theme.of(context).textTheme.headline5.copyWith(
                 color: Colors.grey[600],
                 fontSize: 15.0,
@@ -58,7 +65,7 @@ class MedicineCard extends StatelessWidget {
           children: [
             Text(
               DateFormat('HH:mm').format(
-                DateTime.fromMillisecondsSinceEpoch(medicine.time),
+                DateTime.fromMillisecondsSinceEpoch(reminder.time),
               ),
               style: TextStyle(
                 color: Colors.grey[500],
@@ -78,7 +85,7 @@ class MedicineCard extends StatelessWidget {
               colorFilter: ColorFilter.mode(
                   isEnd ? Colors.white : Colors.transparent,
                   BlendMode.saturation),
-              child: Image.asset(medicine.image),
+              child: Image.asset(reminder.image),
             ),
           ),
         ),
@@ -122,8 +129,10 @@ class MedicineCard extends StatelessWidget {
             ),
             onPressed: () async {
               await Repository().deleteData('Pills', medicineId);
-              await Notifications()
-                  .removeNotify(notifyId, flutterLocalNotificationsPlugin);
+              await Notifications().removeNotify(
+                notifyId,
+                flutterLocalNotificationsPlugin,
+              );
               setData();
               Navigator.pop(context);
             },

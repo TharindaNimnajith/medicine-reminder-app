@@ -1,14 +1,11 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:animated_widgets/animated_widgets.dart';
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../database/repository.dart';
-import '../../models/calendar_day_model.dart';
 import '../../models/pill.dart';
 import '../../notifications/notifications.dart';
-import '../../screens/home/calendar.dart';
 import '../../screens/home/medicines_list.dart';
 
 class Home extends StatefulWidget {
@@ -22,31 +19,23 @@ class _HomeState extends State<Home> {
   final Notifications _notifications = Notifications();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  final CalendarDayModel _days = CalendarDayModel();
-  List<CalendarDayModel> _daysList;
-
-  List<Pill> allListOfPills = <Pill>[];
-  List<Pill> dailyPills = <Pill>[];
-
-  int _lastChooseDay = 0;
+  List<Pill> pills = <Pill>[];
 
   @override
   void initState() {
     super.initState();
     initNotifies();
     setData();
-    _daysList = _days.getCurrentDays();
   }
 
   Future initNotifies() async => flutterLocalNotificationsPlugin =
       await _notifications.initNotifies(context);
 
   Future setData() async {
-    allListOfPills.clear();
+    pills.clear();
     (await _repository.getAllData('Pills')).forEach((pillMap) {
-      allListOfPills.add(Pill().pillMapToObject(pillMap));
+      pills.add(Pill().pillMapToObject(pillMap));
     });
-    chooseDay(_daysList[_lastChooseDay]);
   }
 
   @override
@@ -90,93 +79,45 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(
                     horizontal: 5.0,
                   ),
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    height: deviceHeight * 0.1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Journal',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              .copyWith(color: Colors.black),
-                        ),
-                        ShakeAnimatedWidget(
-                          enabled: true,
-                          duration: Duration(
-                            milliseconds: 2000,
-                          ),
-                          curve: Curves.linear,
-                          shakeAngle: Rotation.deg(
-                            z: 30,
-                          ),
-                          child: Icon(
-                            Icons.notifications_none,
-                            size: 42.0,
-                          ),
-                        )
-                      ],
+                  child: Text(
+                    'Medicine Reminder',
+                    style: TextStyle(
+                      fontSize: 30.0,
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: deviceHeight * 0.01,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5.0,
-                  ),
-                  child: Calendar(chooseDay, _daysList),
-                ),
-                SizedBox(
-                  height: deviceHeight * 0.03,
-                ),
-                dailyPills.isEmpty
-                    ? SizedBox(
-                        width: double.infinity,
-                        height: 100,
-                        child: WavyAnimatedTextKit(
-                          textStyle: TextStyle(
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                pills.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 10.0,
+                        ),
+                        child: EmptyWidget(
+                          image: null,
+                          packageImage: PackageImage.Image_1,
+                          title: 'No Reminders',
+                          subTitle: 'No reminders available yet',
+                          titleTextStyle: TextStyle(
+                            fontSize: 22,
+                            color: Color(0xff9da9c7),
+                            fontWeight: FontWeight.w500,
                           ),
-                          text: ['Loading...'],
-                          isRepeatingAnimation: true,
-                          speed: Duration(
-                            milliseconds: 150,
+                          subtitleTextStyle: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xffabb8d6),
                           ),
                         ),
                       )
                     : MedicinesList(
-                        dailyPills, setData, flutterLocalNotificationsPlugin)
+                        pills,
+                        setData,
+                        flutterLocalNotificationsPlugin,
+                      ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void chooseDay(CalendarDayModel clickedDay) {
-    setState(() {
-      _lastChooseDay = _daysList.indexOf(clickedDay);
-      _daysList.forEach((day) => day.isChecked = false);
-      CalendarDayModel chooseDay = _daysList[_daysList.indexOf(clickedDay)];
-      chooseDay.isChecked = true;
-      dailyPills.clear();
-      allListOfPills.forEach((pill) {
-        DateTime pillDate =
-            DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
-        if (chooseDay.dayNumber == pillDate.day &&
-            chooseDay.month == pillDate.month &&
-            chooseDay.year == pillDate.year) {
-          dailyPills.add(pill);
-        }
-      });
-      dailyPills.sort((pill1, pill2) => pill1.time.compareTo(pill2.time));
-    });
   }
 }

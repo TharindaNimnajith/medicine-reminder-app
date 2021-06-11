@@ -17,6 +17,62 @@ class ReminderListItem extends StatelessWidget {
     this.flutterLocalNotificationsPlugin,
   );
 
+  void _showDeleteDialog(
+      BuildContext context,
+      String medicineName,
+      int medicineId,
+      int notifyId,
+      ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Delete?',
+        ),
+        content: Text(
+          'Are you sure to delete $medicineName medicine?',
+        ),
+        contentTextStyle: TextStyle(
+          fontSize: 17.0,
+          color: Colors.grey[800],
+        ),
+        actions: [
+          TextButton(
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(
+              'Delete',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            onPressed: () async {
+              await Repository().deleteData(
+                'Pills',
+                medicineId,
+              );
+              await Notifications().removeNotify(
+                notifyId,
+                flutterLocalNotificationsPlugin,
+              );
+              setData();
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isEnd = DateTime.now().millisecondsSinceEpoch > reminder.time;
@@ -95,62 +151,6 @@ class ReminderListItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showDeleteDialog(
-    BuildContext context,
-    String medicineName,
-    int medicineId,
-    int notifyId,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          'Delete?',
-        ),
-        content: Text(
-          'Are you sure to delete $medicineName medicine?',
-        ),
-        contentTextStyle: TextStyle(
-          fontSize: 17.0,
-          color: Colors.grey[800],
-        ),
-        actions: [
-          TextButton(
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text(
-              'Delete',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            onPressed: () async {
-              await Repository().deleteData(
-                'Pills',
-                medicineId,
-              );
-              await Notifications().removeNotify(
-                notifyId,
-                flutterLocalNotificationsPlugin,
-              );
-              setData();
-              Navigator.pop(context);
-            },
-          ),
-        ],
       ),
     );
   }

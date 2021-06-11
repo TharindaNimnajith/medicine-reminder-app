@@ -18,11 +18,6 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double deviceHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;

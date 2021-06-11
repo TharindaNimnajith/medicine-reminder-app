@@ -19,15 +19,15 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
   final Notifications _notifications = Notifications();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  final Repository _repository = Repository();
-
-  List<Pill> allReminders = <Pill>[];
-  List<Pill> dailyReminders = <Pill>[];
-
   final CalendarDayModel _days = CalendarDayModel();
   List<CalendarDayModel> _daysList;
 
   int _lastChooseDay = 0;
+
+  final Repository _repository = Repository();
+
+  List<Pill> allReminders = <Pill>[];
+  List<Pill> dailyReminders = <Pill>[];
 
   @override
   void initState() {
@@ -48,31 +48,49 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
     chooseDay(_daysList[_lastChooseDay]);
   }
 
+  void chooseDay(CalendarDayModel clickedDay) {
+    setState(() {
+      _lastChooseDay = _daysList.indexOf(clickedDay);
+      _daysList.forEach((day) => day.isChecked = false);
+      CalendarDayModel chooseDay = _daysList[_daysList.indexOf(clickedDay)];
+      chooseDay.isChecked = true;
+      dailyReminders.clear();
+      allReminders.forEach((pill) {
+        DateTime pillDate =
+            DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
+        if (chooseDay.dayNumber == pillDate.day &&
+            chooseDay.month == pillDate.month &&
+            chooseDay.year == pillDate.year) {
+          dailyReminders.add(pill);
+        }
+      });
+      dailyReminders.sort((pill1, pill2) => pill1.time.compareTo(pill2.time));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double deviceHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
-    final Widget addButton = FloatingActionButton(
-      elevation: 2.0,
-      onPressed: () async {
-        await Navigator.pushNamed(
-          context,
-          '/add_new_medicine',
-        ).then((_) => setData());
-      },
-      child: Icon(
-        Icons.add,
-        color: Colors.white,
-        size: 24.0,
-      ),
-      backgroundColor: Theme.of(context).primaryColor,
-    );
-
     return Scaffold(
-      floatingActionButton: addButton,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      backgroundColor: Color.fromRGBO(248, 248, 248, 1),
+      floatingActionButton: FloatingActionButton(
+        elevation: 3.0,
+        onPressed: () async {
+          await Navigator.pushNamed(
+            context,
+            '/add_new_medicine',
+          ).then((_) => setData());
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 24.0,
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
@@ -137,25 +155,5 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
         ),
       ),
     );
-  }
-
-  void chooseDay(CalendarDayModel clickedDay) {
-    setState(() {
-      _lastChooseDay = _daysList.indexOf(clickedDay);
-      _daysList.forEach((day) => day.isChecked = false);
-      CalendarDayModel chooseDay = _daysList[_daysList.indexOf(clickedDay)];
-      chooseDay.isChecked = true;
-      dailyReminders.clear();
-      allReminders.forEach((pill) {
-        DateTime pillDate =
-            DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
-        if (chooseDay.dayNumber == pillDate.day &&
-            chooseDay.month == pillDate.month &&
-            chooseDay.year == pillDate.year) {
-          dailyReminders.add(pill);
-        }
-      });
-      dailyReminders.sort((pill1, pill2) => pill1.time.compareTo(pill2.time));
-    });
   }
 }

@@ -15,6 +15,9 @@ class CalendarDay extends StatefulWidget {
   _CalendarDayState createState() => _CalendarDayState();
 }
 
+// references: https://stackoverflow.com/questions/61755268/how-to-create-custom-calendar-in-flutter
+// references: https://stackoverflow.com/questions/58229684/how-to-achieve-singleline-horizontal-calendarview-in-flutter
+// references: https://medium.com/flutterdevs/display-dynamic-events-at-calendar-in-flutter-22b69b29daf6
 class _CalendarDayState extends State<CalendarDay> {
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,9 @@ class _CalendarDayState extends State<CalendarDay> {
             onTap: () => widget.onDayClick(widget.day),
             child: CircleAvatar(
               radius: constrains.maxHeight * 0.25,
-              backgroundColor:
-                  widget.day.isChecked ? Colors.blueAccent : Colors.transparent,
+              backgroundColor: widget.day.isChecked
+                  ? Colors.blueAccent
+                  : Color.fromRGBO(193, 247, 255, 0.4),
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Text(

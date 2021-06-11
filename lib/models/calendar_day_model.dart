@@ -15,6 +15,7 @@ class CalendarDayModel {
     this.isChecked,
   });
 
+  // references: https://stackoverflow.com/questions/65592085/scroll-through-current-and-previous-week-using-controller-in-horizontal-calendar
   List<CalendarDayModel> getCurrentDays() {
     final List<CalendarDayModel> daysList = [];
     DateTime currentTime = DateTime.now();

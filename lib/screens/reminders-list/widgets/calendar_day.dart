@@ -6,7 +6,10 @@ class CalendarDay extends StatefulWidget {
   final CalendarDayModel day;
   final Function onDayClick;
 
-  CalendarDay(this.day, this.onDayClick);
+  CalendarDay(
+    this.day,
+    this.onDayClick,
+  );
 
   @override
   _CalendarDayState createState() => _CalendarDayState();
@@ -42,9 +45,10 @@ class _CalendarDayState extends State<CalendarDay> {
                 child: Text(
                   widget.day.dayNumber.toString(),
                   style: TextStyle(
-                      color: widget.day.isChecked ? Colors.white : Colors.black,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w500),
+                    color: widget.day.isChecked ? Colors.white : Colors.black,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),

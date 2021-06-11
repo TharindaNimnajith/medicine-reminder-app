@@ -83,9 +83,6 @@ class ReminderListItem extends StatelessWidget {
         vertical: 7.0,
       ),
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
         onLongPress: () => _showDeleteDialog(
           context,
           reminder.name,
@@ -93,14 +90,13 @@ class ReminderListItem extends StatelessWidget {
           reminder.notifyId,
         ),
         contentPadding: EdgeInsets.symmetric(
-          vertical: 15.0,
+          vertical: 10.0,
           horizontal: 15.0,
         ),
         leading: Container(
           width: 60.0,
           height: 60.0,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
+          child: CircleAvatar(
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
                 isEnd ? Colors.white : Colors.transparent,
@@ -124,7 +120,7 @@ class ReminderListItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
-          '${reminder.amount} ${reminder.medicineForm}',
+          '${reminder.amount} ${reminder.type}',
           style: Theme.of(context).textTheme.headline5.copyWith(
                 fontFamily: 'roboto',
                 color: Colors.grey[600],
@@ -135,7 +131,8 @@ class ReminderListItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               DateFormat('HH:mm').format(
@@ -143,6 +140,16 @@ class ReminderListItem extends StatelessWidget {
                   reminder.time,
                 ),
               ),
+              style: TextStyle(
+                fontFamily: 'roboto',
+                color: Colors.grey[500],
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+                decoration: isEnd ? TextDecoration.lineThrough : null,
+              ),
+            ),
+            Text(
+              '${reminder.howManyWeeks} weeks',
               style: TextStyle(
                 fontFamily: 'roboto',
                 color: Colors.grey[500],

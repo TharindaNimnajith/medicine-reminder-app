@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/calendar_day_model.dart';
+import '../../../models/calendar_day_model.dart';
 
 class CalendarDay extends StatefulWidget {
   final CalendarDayModel day;

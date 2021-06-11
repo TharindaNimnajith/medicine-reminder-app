@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 
-import '../../database/repository.dart';
-import '../../models/pill.dart';
-import '../../notifications/notifications.dart';
+import '../../../database/repository.dart';
+import '../../../models/pill.dart';
+import '../../../notifications/notifications.dart';
 
-class MedicineCard extends StatelessWidget {
+class ReminderListItem extends StatelessWidget {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final Pill reminder;
   final Function setData;
 
-  MedicineCard(
+  ReminderListItem(
     this.reminder,
     this.setData,
     this.flutterLocalNotificationsPlugin,

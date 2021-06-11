@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../models/calendar_day_model.dart';
-import '../../screens/home/calendar_day.dart';
+import '../../../models/calendar_day_model.dart';
+import 'calendar_day.dart';
 
 class Calendar extends StatefulWidget {
   final Function chooseDay;

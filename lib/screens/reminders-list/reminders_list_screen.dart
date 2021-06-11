@@ -7,15 +7,15 @@ import '../../database/repository.dart';
 import '../../models/calendar_day_model.dart';
 import '../../models/pill.dart';
 import '../../notifications/notifications.dart';
-import '../../screens/home/calendar.dart';
-import '../../screens/home/medicines_list.dart';
+import 'widgets/calendar.dart';
+import 'widgets/reminder_list.dart';
 
-class Home extends StatefulWidget {
+class RemindersListScreen extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _RemindersListScreenState createState() => _RemindersListScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _RemindersListScreenState extends State<RemindersListScreen> {
   final Notifications _notifications = Notifications();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       )
-                    : MedicinesList(
+                    : ReminderList(
                         dailyReminders,
                         setData,
                         flutterLocalNotificationsPlugin,

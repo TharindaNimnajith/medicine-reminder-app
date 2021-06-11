@@ -18,11 +18,11 @@ class ReminderListItem extends StatelessWidget {
   );
 
   void _showDeleteDialog(
-      BuildContext context,
-      String medicineName,
-      int medicineId,
-      int notifyId,
-      ) {
+    BuildContext context,
+    String medicineName,
+    int medicineId,
+    int notifyId,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -78,11 +78,10 @@ class ReminderListItem extends StatelessWidget {
     final bool isEnd = DateTime.now().millisecondsSinceEpoch > reminder.time;
 
     return Card(
-      elevation: 0.0,
+      elevation: 7.0,
       margin: EdgeInsets.symmetric(
         vertical: 7.0,
       ),
-      color: Colors.white,
       child: ListTile(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -97,9 +96,26 @@ class ReminderListItem extends StatelessWidget {
           vertical: 15.0,
           horizontal: 15.0,
         ),
+        leading: Container(
+          width: 60.0,
+          height: 60.0,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50.0),
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                isEnd ? Colors.white : Colors.transparent,
+                BlendMode.saturation,
+              ),
+              child: Image.asset(
+                reminder.image,
+              ),
+            ),
+          ),
+        ),
         title: Text(
           reminder.name,
           style: Theme.of(context).textTheme.headline1.copyWith(
+                fontFamily: 'roboto',
                 color: Colors.black,
                 fontSize: 20.0,
                 decoration: isEnd ? TextDecoration.lineThrough : null,
@@ -110,6 +126,7 @@ class ReminderListItem extends StatelessWidget {
         subtitle: Text(
           '${reminder.amount} ${reminder.medicineForm}',
           style: Theme.of(context).textTheme.headline5.copyWith(
+                fontFamily: 'roboto',
                 color: Colors.grey[600],
                 fontSize: 15.0,
                 decoration: isEnd ? TextDecoration.lineThrough : null,
@@ -127,6 +144,7 @@ class ReminderListItem extends StatelessWidget {
                 ),
               ),
               style: TextStyle(
+                fontFamily: 'roboto',
                 color: Colors.grey[500],
                 fontWeight: FontWeight.w400,
                 fontSize: 15,
@@ -134,22 +152,6 @@ class ReminderListItem extends StatelessWidget {
               ),
             ),
           ],
-        ),
-        leading: Container(
-          width: 60.0,
-          height: 60.0,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                isEnd ? Colors.white : Colors.transparent,
-                BlendMode.saturation,
-              ),
-              child: Image.asset(
-                reminder.image,
-              ),
-            ),
-          ),
         ),
       ),
     );

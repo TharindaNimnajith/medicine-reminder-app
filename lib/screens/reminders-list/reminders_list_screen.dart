@@ -55,16 +55,17 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
       CalendarDayModel chooseDay = _daysList[_daysList.indexOf(clickedDay)];
       chooseDay.isChecked = true;
       dailyReminders.clear();
-      allReminders.forEach((pill) {
-        DateTime pillDate =
-            DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
-        if (chooseDay.dayNumber == pillDate.day &&
-            chooseDay.month == pillDate.month &&
-            chooseDay.year == pillDate.year) {
-          dailyReminders.add(pill);
+      allReminders.forEach((reminder) {
+        DateTime reminderDate =
+            DateTime.fromMicrosecondsSinceEpoch(reminder.time * 1000);
+        if (chooseDay.dayNumber == reminderDate.day &&
+            chooseDay.month == reminderDate.month &&
+            chooseDay.year == reminderDate.year) {
+          dailyReminders.add(reminder);
         }
       });
-      dailyReminders.sort((pill1, pill2) => pill1.time.compareTo(pill2.time));
+      dailyReminders.sort(
+          (reminder1, reminder2) => reminder1.time.compareTo(reminder2.time));
     });
   }
 
@@ -95,8 +96,7 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
         child: SafeArea(
           child: Container(
             padding: const EdgeInsets.only(
-              top: 40.0,
-              bottom: 20.0,
+              top: 38.0,
               left: 20.0,
               right: 20.0,
             ),
@@ -105,15 +105,16 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                 Text(
                   'Medicine Reminders'.toUpperCase(),
                   style: TextStyle(
-                    fontSize: 30.0,
+                    fontFamily: 'roboto',
+                    fontSize: 34.0,
                     color: Colors.blueAccent,
-                    letterSpacing: 2.0,
+                    letterSpacing: 1.5,
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(
-                    top: 35.0,
-                    bottom: 25.0,
+                    top: 40.0,
+                    bottom: 18.0,
                   ),
                   child: Calendar(
                     chooseDay,
@@ -133,11 +134,13 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                             title: 'No Reminders',
                             subTitle: 'No reminders available yet',
                             titleTextStyle: TextStyle(
+                              fontFamily: 'roboto',
                               fontSize: 22.0,
                               color: Color(0xff9da9c7),
                               fontWeight: FontWeight.w500,
                             ),
                             subtitleTextStyle: TextStyle(
+                              fontFamily: 'roboto',
                               fontSize: 14.0,
                               color: Color(0xffabb8d6),
                             ),

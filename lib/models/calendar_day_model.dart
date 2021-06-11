@@ -20,7 +20,7 @@ class CalendarDayModel {
     DateTime currentTime = DateTime.now();
     for (int i = 0; i < 7; i++) {
       daysList.add(CalendarDayModel(
-        dayLetter: DateFormat.E().format(currentTime).toString()[0],
+        dayLetter: DateFormat.E().format(currentTime).toString(),
         dayNumber: currentTime.day,
         month: currentTime.month,
         year: currentTime.year,

@@ -97,6 +97,7 @@ class ReminderListItem extends StatelessWidget {
           width: 60.0,
           height: 60.0,
           child: CircleAvatar(
+            backgroundColor: Colors.transparent,
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
                 isEnd ? Colors.white : Colors.transparent,

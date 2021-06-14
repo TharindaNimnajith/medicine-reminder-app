@@ -36,7 +36,7 @@ dependencies:
   timezone: ^0.5.9
   animated_text_kit: ^2.5.3
   animated_widgets: ^1.0.6
-  empty_widget: ^0.0.3
+#  empty_widget: ^0.0.3
 
 dev_dependencies:
   flutter_test:

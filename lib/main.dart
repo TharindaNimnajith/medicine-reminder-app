@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medicine/screens/edit_medicine/edit_medicine.dart';
 
 import './screens/welcome/welcome.dart';
-import '../../screens/add_new_medicine/add_new_medicine.dart';
-import '../../screens/reminders-list/reminders_list_screen.dart';
+import 'screens/add_new_medicine/add_new_medicine.dart';
+import 'screens/reminders-list/reminders_list_screen.dart';
+// import '../../screens/add_new_medicine/add_new_medicine.dart';
+// import '../../screens/reminders-list/reminders_list_screen.dart';
 
 void main() {
   runApp(MedicineApp());
@@ -41,6 +44,7 @@ class MedicineApp extends StatelessWidget {
         "/": (context) => Welcome(),
         "/home": (context) => RemindersListScreen(),
         "/add_new_medicine": (context) => AddNewMedicine(),
+        "/edit_medicine": (context) => EditMedicine(),
       },
       initialRoute: "/",
     );

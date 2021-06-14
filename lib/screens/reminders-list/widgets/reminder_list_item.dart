@@ -83,6 +83,8 @@ class ReminderListItem extends StatelessWidget {
         vertical: 7.0,
       ),
       child: ListTile(
+        onTap: () => Navigator.pushNamed(context, "/edit_medicine",
+            arguments: reminder.id),
         onLongPress: () => _showDeleteDialog(
           context,
           reminder.name,

@@ -1,4 +1,4 @@
-import 'package:empty_widget/empty_widget.dart';
+// import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -127,25 +127,25 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10.0,
                         ),
-                        child: Center(
-                          child: EmptyWidget(
-                            image: null,
-                            packageImage: PackageImage.Image_1,
-                            title: 'No Reminders',
-                            subTitle: 'No reminders available yet',
-                            titleTextStyle: TextStyle(
-                              fontFamily: 'roboto',
-                              fontSize: 22.0,
-                              color: Color(0xff9da9c7),
-                              fontWeight: FontWeight.w500,
-                            ),
-                            subtitleTextStyle: TextStyle(
-                              fontFamily: 'roboto',
-                              fontSize: 14.0,
-                              color: Color(0xffabb8d6),
-                            ),
-                          ),
-                        ),
+                        // child: Center(
+                        //   child: EmptyWidget(
+                        //     image: null,
+                        //     packageImage: PackageImage.Image_1,
+                        //     title: 'No Reminders',
+                        //     subTitle: 'No reminders available yet',
+                        //     titleTextStyle: TextStyle(
+                        //       fontFamily: 'roboto',
+                        //       fontSize: 22.0,
+                        //       color: Color(0xff9da9c7),
+                        //       fontWeight: FontWeight.w500,
+                        //     ),
+                        //     subtitleTextStyle: TextStyle(
+                        //       fontFamily: 'roboto',
+                        //       fontSize: 14.0,
+                        //       color: Color(0xffabb8d6),
+                        //     ),
+                        //   ),
+                        // ),
                       )
                     : ReminderList(
                         dailyReminders,

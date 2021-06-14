@@ -340,15 +340,15 @@ class _EditMedicineState extends State<EditMedicine> {
       Pill pill = Pill(
           id: outputList.first.id,
           amount: amountController.text,
-          howManyWeeks: outputList.first.howManyWeeks,
-          medicineForm: outputList.first.medicineForm,
+          howManyWeeks: howManyWeeks,
+          medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose == true)].name,
           name: nameController.text,
           time: setDate.millisecondsSinceEpoch,
           type: selectWeight,
           notifyId: outputList.first.notifyId);
 
       //---------------------| Save as many medicines as many user checks |----------------------
-      for (int i = 0; i < howManyWeeks; i++) {
+      // for (int i = 0; i < howManyWeeks; i++) {
         dynamic result = await _repository.update(
             "Pills", outputList.first.id, pill.pillToMap());
         if (result == null) {
@@ -368,7 +368,7 @@ class _EditMedicineState extends State<EditMedicine> {
           pill.time = setDate.millisecondsSinceEpoch;
           pill.notifyId = Random().nextInt(10000000);
         }
-      }
+      // }
       //---------------------------------------------------------------------------------------
       snackbar.showSnack("Edit Successful", _scaffoldKey, null);
       Navigator.pop(context);

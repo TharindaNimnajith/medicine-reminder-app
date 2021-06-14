@@ -78,13 +78,19 @@ class ReminderListItem extends StatelessWidget {
     final bool isEnd = DateTime.now().millisecondsSinceEpoch > reminder.time;
 
     return Card(
+      key: UniqueKey(),
       elevation: 7.0,
       margin: EdgeInsets.symmetric(
         vertical: 7.0,
       ),
       child: ListTile(
-        onTap: () => Navigator.pushNamed(context, "/edit_medicine",
-            arguments: reminder.id),
+        onTap: () async {
+          await Navigator.pushNamed(
+            context,
+            '/edit_medicine',
+            arguments: reminder.id,
+          ).then((_) => setData());
+        },
         onLongPress: () => _showDeleteDialog(
           context,
           reminder.name,

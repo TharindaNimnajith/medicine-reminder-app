@@ -106,7 +106,7 @@ class _RemindersListScreenState extends State<RemindersListScreen> {
                   'Medicine Reminders'.toUpperCase(),
                   style: TextStyle(
                     fontFamily: 'roboto',
-                    fontSize: 34.0,
+                    fontSize: 30.0,
                     color: Colors.blueAccent,
                     letterSpacing: 1.5,
                   ),
